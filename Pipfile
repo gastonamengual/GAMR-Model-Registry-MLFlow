@@ -5,13 +5,17 @@ name = "pypi"
 
 [packages]
 mlflow = "2.20.3"
-pandas = "*"
 scikit-learn = "*"
-numpy = "*"
-matplotlib = "*"
+fastapi = "==0.115.0"
+uvicorn = "==0.34.0"
+gradio-client = "==1.5.0"
+python-multipart = "==0.0.18"
 
 [dev-packages]
+pytest = "==8.3.4"
+pytest-cov = "==6.0.0"
+pre-commit = "==4.1.0"
 ipykernel = "*"
 
 [requires]
-python_version = "3.10"
+python_version = "3.12.9"
