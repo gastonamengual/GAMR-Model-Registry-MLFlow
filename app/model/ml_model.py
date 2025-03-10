@@ -1,0 +1,9 @@
+from typing import Protocol, Self
+
+import numpy.typing as npt
+
+
+class MLModel(Protocol):
+    def fit(self, X: npt.ArrayLike, y: npt.ArrayLike) -> Self: ...
+    def predict(self, X: npt.ArrayLike) -> npt.ArrayLike: ...
+    def partial_fit(self, X: npt.ArrayLike, y: npt.ArrayLike) -> Self: ...

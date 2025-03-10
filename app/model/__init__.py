@@ -1,4 +1,5 @@
-from .payload import Payload, Dataset, PayloadRawData
-from .ml_service_response import PipelineResponse
+from .input_data import InputData
+from .ml_model import MLModel
+from .prediction_result import PredictionResult
 
-__all__ = ["Payload", "Dataset", "PayloadRawData", "PipelineResponse"]
+__all__ = ["InputData", "MLModel", "PredictionResult"]
