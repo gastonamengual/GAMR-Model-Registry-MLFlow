@@ -12,6 +12,7 @@ class Settings_(BaseSettings):
     )
 
     MODEL_TRACKING_URI: str = Field(default="")
+    RENDER_API_TOKEN: str = Field(default="")
 
 
 Settings = Settings_()
