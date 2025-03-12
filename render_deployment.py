@@ -1,9 +1,12 @@
 import requests
-from gamr_backend_api_service.settings import Settings
+
+from app.settings import Settings
 
 
 def get_service_id() -> str:
-    url = "https://api.render.com/v1/services?includePreviews=true&limit=20"
+    url = (
+        "https://api.render.com/v1/services?includePreviews=true&limit=20"  # Render API
+    )
 
     headers = {
         "accept": "application/json",
@@ -16,7 +19,7 @@ def get_service_id() -> str:
 
 
 def deploy_service(service_id: str) -> None:
-    url = f"https://api.render.com/v1/services/{service_id}/deploys"
+    url = f"https://api.render.com/v1/services/{service_id}/deploys"  # Render API
 
     payload = {"clearCache": "do_not_clear"}
     headers = {
