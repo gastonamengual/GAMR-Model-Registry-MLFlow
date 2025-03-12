@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
-from app.experiment_tracking import AbstractExperimentTracker, MLFlowExperimentTracker
+from app.experiment_tracking import MLFlowExperimentTracker
 from app.model import InputData, PredictionResult
 from app.model_registry import MLFlowModelRegistry, ModelRegistry, ModelRegistryConfig
 
@@ -35,11 +35,9 @@ async def get_versions(
 async def train(
     model_name: str,
     data: InputData,
-    model_registry: Annotated[ModelRegistry, Depends(MLFlowModelRegistry)],
-    experiment_tracker: Annotated[
-        AbstractExperimentTracker, Depends(MLFlowExperimentTracker)
-    ],
 ) -> ModelRegistryConfig:
+    experiment_tracker = MLFlowExperimentTracker()
+    model_registry = MLFlowModelRegistry()
     experiment_tracker.set_experiment()
     with experiment_tracker.start_run() as run:
         run_id = run.__dict__["_info"].__dict__["_run_id"]
@@ -54,8 +52,8 @@ async def predict(
     model_name: str,
     model_version: str,
     data: InputData,
-    model_registry: Annotated[ModelRegistry, Depends(MLFlowModelRegistry)],
 ) -> PredictionResult:
+    model_registry = MLFlowModelRegistry()
     model_registry_config = ModelRegistryConfig(
         model_name=model_name,
         model_version=model_version,

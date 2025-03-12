@@ -10,6 +10,7 @@ fastapi = "==0.115.0"
 uvicorn = "==0.34.0"
 gradio-client = "==1.5.0"
 python-multipart = "==0.0.18"
+pydantic_settings = "*"
 
 [dev-packages]
 pytest = "==8.3.4"

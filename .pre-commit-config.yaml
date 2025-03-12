@@ -25,7 +25,7 @@ repos:
         #     - id: bandit
 
 -   repo: https://github.com/gauge-sh/tach-pre-commit
-    rev: v0.27.2
+    rev: v0.27.3
     hooks:
     -   id: tach
 
@@ -83,7 +83,7 @@ repos:
         -   "intentguard==2.0.3"
 
 -   repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-    rev: "v9.21.0"
+    rev: "v9.22.0"
     hooks:
     -   id: commitlint
         stages:
