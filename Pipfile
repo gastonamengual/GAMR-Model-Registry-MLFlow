@@ -20,3 +20,6 @@ ipykernel = "*"
 
 [requires]
 python_version = "3.12.9"
+
+[scripts]
+test = "pytest ./tests -rA --doctest-modules --junitxml=pytest-report.xml --cov=. --cov-report=html --cov-report term-missing"
