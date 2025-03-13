@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
+from typing import Any
 
-import numpy.typing as npt
 from sklearn.discriminant_analysis import StandardScaler
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import accuracy_score
@@ -25,9 +25,7 @@ class ModelPipeline:
         y = self.model.predict(data.X)
         return PredictionResult(prediction=int(y[0]))
 
-    def _split_data(
-        self, data: InputData
-    ) -> tuple[npt.ArrayLike, npt.ArrayLike, npt.ArrayLike, npt.ArrayLike]:
+    def _split_data(self, data: InputData) -> tuple[Any, Any, Any, Any]:
         X_train, X_test, y_train, y_test = train_test_split(
             data.X, data.y, test_size=0.3, random_state=42
         )

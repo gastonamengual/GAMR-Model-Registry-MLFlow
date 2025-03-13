@@ -4,11 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-mlflow = "2.20.3"
+mlflow-skinny = "*"
 scikit-learn = "*"
 fastapi = "==0.115.0"
 uvicorn = "==0.34.0"
-gradio-client = "==1.5.0"
 python-multipart = "==0.0.18"
 pydantic_settings = "*"
 
