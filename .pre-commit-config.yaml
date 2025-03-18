@@ -25,12 +25,12 @@ repos:
         #     - id: bandit
 
 -   repo: https://github.com/gauge-sh/tach-pre-commit
-    rev: v0.28.0
+    rev: v0.28.1
     hooks:
     -   id: tach
 
 -   repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.9.10"
+    rev: "v0.11.0"
     hooks:
     -   id: ruff-format
     -   id: ruff
