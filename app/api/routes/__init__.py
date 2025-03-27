@@ -1,3 +1,6 @@
-from .base import router
+from .base import router as home_router
+from .model import router as model_router
 
-__all__ = ["router"]
+ROUTERS = [home_router, model_router]
+
+__all__ = ["ROUTERS"]
