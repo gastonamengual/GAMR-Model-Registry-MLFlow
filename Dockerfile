@@ -2,16 +2,12 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-RUN pip install --upgrade pip \
-    psycopg2-binary \
-    mlflow
+COPY Pipfile Pipfile.lock /app/
 
-EXPOSE 80
+RUN pip install --upgrade pip && pip install pipenv && pipenv install --deploy
 
-CMD ["mlflow", "server", \
-    "--backend-store-uri", "postgresql://mlflow_database_user:GexY8t4Wq656Rj8OUD7spq4DbLvu1eLP@dpg-cv84vnaj1k6c73bk2f40-a.frankfurt-postgres.render.com/mlflow_database", \
-    "--host", "0.0.0.0", \
-    "--port", "80"]
+COPY . /app/
 
-# docker build -t mlflow-server .
-# docker run -p 5000:5000 mlflow-server
+EXPOSE 5001
+
+CMD ["pipenv", "run", "start"]

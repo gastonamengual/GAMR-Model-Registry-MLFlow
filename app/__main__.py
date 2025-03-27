@@ -11,7 +11,7 @@ if __name__ == "__main__":
         "app.api:create_app",
         factory=True,
         host="0.0.0.0",
-        port=int(os.getenv("PORT", 8080)),
+        port=int(os.getenv("PORT", 5001)),
         reload=True,
     )
 
