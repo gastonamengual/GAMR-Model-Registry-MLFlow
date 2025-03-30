@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flower-model-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flower-model-service
+  template:
+    metadata:
+      labels:
+        app: flower-model-service
+    spec:
+      containers:
+        - name: flower-model-service
+          image: gastonamengual/flower_model_service:latest
+          ports:
+            - containerPort: 5001
+          envFrom:
+            - secretRef:
+                name: flower-model-service-secrets
+          env:
+            - name: MODEL_TRACKING_URI
+              value: "http://mlflow_server:5005"
+            - name: DB_PORT
+              value: "5432"
