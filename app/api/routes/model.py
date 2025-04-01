@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends
 from app.experiment_tracking import MLFlowExperimentTracker
 from app.model import InputData, PredictionResult
 from app.model_registry import MLFlowModelRegistry, ModelRegistry, ModelRegistryConfig
+from app.monitoring import PROMETHEUS_MONITOR
 
 router = APIRouter(prefix="/model")
 
@@ -13,7 +14,13 @@ router = APIRouter(prefix="/model")
 async def models(
     model_registry: Annotated[ModelRegistry, Depends(MLFlowModelRegistry)],
 ) -> dict[str, list[str]]:
+    start_time = PROMETHEUS_MONITOR.start_time()
+    PROMETHEUS_MONITOR.increase_current_requests("/model/")
+
     models = model_registry.get_all_models()
+    PROMETHEUS_MONITOR.record_request_duration(start_time, "/model/")
+    PROMETHEUS_MONITOR.decrease_current_requests("/model/")
+
     return {"models": models}
 
 
@@ -22,7 +29,14 @@ async def get_versions(
     model_name: str,
     model_registry: Annotated[ModelRegistry, Depends(MLFlowModelRegistry)],
 ) -> dict[str, list[int]]:
+    start_time = PROMETHEUS_MONITOR.start_time()
+    PROMETHEUS_MONITOR.increase_current_requests("/model_versions")
+
     versions = model_registry.get_all_model_versions(model_name=model_name)
+
+    PROMETHEUS_MONITOR.record_request_duration(start_time, "/model_versions")
+    PROMETHEUS_MONITOR.decrease_current_requests("/model_versions")
+
     return {"versions": versions}
 
 
@@ -37,9 +51,18 @@ async def train(
     with experiment_tracker.start_run() as run:
         run_id = run.__dict__["_info"].__dict__["_run_id"]
         config = ModelRegistryConfig(model_name=model_name)
+
+        start_time = PROMETHEUS_MONITOR.start_time()
+        PROMETHEUS_MONITOR.increase_current_requests("/train/")
+
         model_pipeline = model_registry.get_latest_model(config=config)
         model = model_pipeline.train(data, run_id)
-        return model_registry.create_model(model=model, config=config)
+        result = model_registry.create_model(model=model, config=config)
+
+        PROMETHEUS_MONITOR.record_request_duration(start_time, "/train/")
+        PROMETHEUS_MONITOR.decrease_current_requests("/train/")
+
+        return result
 
 
 @router.post("/{model_name}/{model_version}/predict")
@@ -53,5 +76,13 @@ async def predict(
         model_name=model_name,
         model_version=model_version,
     )
+    start_time = PROMETHEUS_MONITOR.start_time()
+    PROMETHEUS_MONITOR.increase_current_requests("/predict/")
+
     model_pipeline = model_registry.load(model_registry_config)
-    return model_pipeline.predict(data)
+    result = model_pipeline.predict(data)
+
+    PROMETHEUS_MONITOR.record_request_duration(start_time, "/predict/")
+    PROMETHEUS_MONITOR.decrease_current_requests("/predict/")
+
+    return result
